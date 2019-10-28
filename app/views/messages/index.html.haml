@@ -1,0 +1,27 @@
+.header
+  グループを編集しました
+
+.contents
+  =render partial: "left-content"
+  .contents__right
+    .contents__right-top
+      .contents__right-top__text-box
+        .contents__right-top__text-box--group
+          group-name
+        .contents__right-top__text-box--user-list
+          Menber：
+          .contents__right-top__text-box--user-list-name
+      .contents__right-top__edit
+        .contents__right-top__edit-btn
+          Edit
+    .contents__right-main
+    .contents__right-bottom
+      %form.contents__right-bottom__text
+        .contents__right-bottom__text-box
+          %input{type: "text", name: "post", class: "contents__right-bottom__text-box--text", placeholder: "type a text"}
+          %label.contents__right-bottom__text-box--image{for: "image-icon"}
+            = fa_icon "image"
+            %input{type: "file", id: "image-icon"}
+        
+        .contents__right-bottom__text-send
+          Send
