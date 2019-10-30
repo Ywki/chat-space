@@ -2,19 +2,21 @@
   .contents__left-top
     .contents__left-top__text-box
       .contents__left-top__text-box--text
-        test-user
+        = current_user.name
       .contents__left-top__text-box--icon
         .contents__left-top__text-box--icon-edit
-        =link_to "", class: "contents__left-top__text-box--icon contents__left-top__text-box--icon-edit" do
+        =link_to new_group_path, class: "contents__left-top__text-box--icon contents__left-top__text-box--icon-edit" do
           = fa_icon "edit", class: "contents__left-top__text-box--icon-btn"
           %span<>
         .contents__left-top__text-box--icon-cog
-        =link_to "", class: "contents__left-top__text-box--icon contents__left-top__text-box--icon-cog" do
+        =link_to edit_user_path(current_user), class: "contents__left-top__text-box--icon contents__left-top__text-box--icon-cog" do
           = fa_icon "cog", class: "contents__left-top__text-box--icon-btn"
           %span<>
   .contents__left-bottom
-    .contents__left-bottom__group
-      .contents__left-bottom__group-name
-        a
-      .contents__left-bottom__group-message
-        a
+    - current_user.groups.each do |group|
+      .group
+        =link_to  group_messages_path(group) do
+          .contents__left-bottom__group
+            = group.name
+          .contents__left-bottom__group-name
+            メッセージはまだありません。

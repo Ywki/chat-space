@@ -1,5 +1,4 @@
 .header
-  グループを編集しました
 
 .contents
   =render partial: "left-content"
@@ -7,12 +6,15 @@
     .contents__right-top
       .contents__right-top__text-box
         .contents__right-top__text-box--group
-          group-name
+          .group
+            = @group.name
         .contents__right-top__text-box--user-list
-          Menber：
           .contents__right-top__text-box--user-list-name
+          - @group.users.each do |group_user|
+            Menber:
+            = group_user.name
       .contents__right-top__edit
-        .contents__right-top__edit-btn
+        = link_to edit_group_path(@group.id), class: "contents__right-top__edit-btn" do
           Edit
     .contents__right-main
     .contents__right-bottom
@@ -22,6 +24,6 @@
           %label.contents__right-bottom__text-box--image{for: "image-icon"}
             = fa_icon "image"
             %input{type: "file", id: "image-icon"}
-        
+            
         .contents__right-bottom__text-send
           Send
