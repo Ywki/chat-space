@@ -17,13 +17,14 @@
         = link_to edit_group_path(@group.id), class: "contents__right-top__edit-btn" do
           Edit
     .contents__right-main
+      =render @messages
     .contents__right-bottom
-      %form.contents__right-bottom__text
+      .contents__right-bottom__text
         .contents__right-bottom__text-box
-          %input{type: "text", name: "post", class: "contents__right-bottom__text-box--text", placeholder: "type a text"}
-          %label.contents__right-bottom__text-box--image{for: "image-icon"}
-            = fa_icon "image"
-            %input{type: "file", id: "image-icon"}
-            
-        .contents__right-bottom__text-send
-          Send
+          = form_for [@group, @message] do |f|
+            = f.text_field :content, class: 'contents__right-bottom__text-box--text', placeholder: 'type a message'
+            .contents__right-bottom__text-box--image
+              = f.label :image, class: 'contents__right-bottom__text-box--image-mask' do
+                = fa_icon 'picture-o', class: 'icon'
+                = f.file_field :image, class: 'image-icon'
+            = f.submit 'Send', class: 'contents__right-bottom__text-send'
