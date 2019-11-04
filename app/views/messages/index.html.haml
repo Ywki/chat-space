@@ -18,13 +18,11 @@
           Edit
     .contents__right-main
       =render @messages
-    .contents__right-bottom
-      .contents__right-bottom__text
-        .contents__right-bottom__text-box
-          = form_for [@group, @message] do |f|
-            = f.text_field :content, class: 'contents__right-bottom__text-box--text', placeholder: 'type a message'
-            .contents__right-bottom__text-box--image
-              = f.label :image, class: 'contents__right-bottom__text-box--image-mask' do
-                = fa_icon 'picture-o', class: 'icon'
-                = f.file_field :image, class: 'image-icon'
-            = f.submit 'Send', class: 'contents__right-bottom__text-send'
+  .contents__right-bottom
+    = form_for [@group, @message] do |f|
+      = f.text_field :content, class: 'contents__right-bottom__text', placeholder: 'type a message'
+      .contents__right-bottom__text-box
+        = f.label :image, class: 'contents__right-bottom__text-box--imagemask' do
+          = fa_icon 'picture-o', class: 'icon'
+          = f.file_field :image, class: 'hidden'
+      = f.submit 'Send', class: 'contents__right-bottom-send'
