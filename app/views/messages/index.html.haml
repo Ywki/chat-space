@@ -1,23 +1,30 @@
+//記述の基本となるところ。contentsの右側を表示している
+
 .header
 
 .contents
   =render partial: "left-content"
+  //部分テンプレート=view/messages/_left-content.html.hamlへ遷移
   .contents__right
     .contents__right-top
       .contents__right-top__text-box
         .contents__right-top__text-box--group
           .group
             = @group.name
+            //選択されたgroupの詳細画面を表示
         .contents__right-top__text-box--user-list
+          Menber:
           .contents__right-top__text-box--user-list-name
           - @group.users.each do |group_user|
-            Menber:
             = group_user.name
+            //表示されたグループに属するユーザーを「.each do」で一覧表示。「|group_user|」の名前付けをして「group_user.name」で名前表示。
       .contents__right-top__edit
         = link_to edit_group_path(@group.id), class: "contents__right-top__edit-btn" do
           Edit
+          //編集ボタンの実装。
     .contents__right-main
       =render @messages
+      //
   .contents__right-bottom
     = form_for [@group, @message] do |f|
       = f.text_field :content, class: 'contents__right-bottom__text', placeholder: 'type a message'
@@ -26,3 +33,8 @@
           = fa_icon 'picture-o', class: 'icon'
           = f.file_field :image, class: 'hidden'
       = f.submit 'Send', class: 'contents__right-bottom-send'
+      //「= form_for」で投稿フォームの実装。|f|はformのこと。
+      //テキストボックスを作って「placeholder」でテキストボックス内に「'type a message'」を初期表示。
+      //imeageアイコンをファイル選択と紐づけるためにimage-labelを作成
+      //「fa_icon 'picture-o',」でimageのアイコン作成。
+      //「f.file_field :image」でファイル選択を作動させる。「ファイル選択」を隠すためにクラス付けする。

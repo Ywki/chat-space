@@ -1,3 +1,5 @@
+//contentsの左側全体を記述。
+
 .contents__left
   .contents__left-top
     .contents__left-top__text-box
@@ -7,10 +9,16 @@
         .contents__left-top__text-box--icon-edit
         =link_to new_group_path, class: "contents__left-top__text-box--icon contents__left-top__text-box--icon-edit" do
           = fa_icon "edit", class: "contents__left-top__text-box--icon-btn"
+          //classはscssで実装するために定義。new_group_pathにアクセス。new_group_pathは
+          //doでネスト。上記と下記を繋いでる。
+          //fa_iconでアイコン作成。scssで実装するためにクラス定義。
           %span<>
         .contents__left-top__text-box--icon-cog
         =link_to edit_user_path(current_user), class: "contents__left-top__text-box--icon contents__left-top__text-box--icon-cog" do
           = fa_icon "cog", class: "contents__left-top__text-box--icon-btn"
+          //classはscssで実装するために定義。edit_user_pathにアクセス。edit_user_pathは
+          //doでネスト。上記と下記を繋いでる。
+          //fa_iconでアイコン作成。scssで実装するためにクラス定義。
           %span<>
   .contents__left-bottom
     - current_user.groups.each do |group|
@@ -20,3 +28,5 @@
             = group.name
           .contents__left-bottom__group-name
             = group.show_last_message
+            //
+            //groupクラスをクリックするとgroup_messages_path(group)へアクセス。グループ名と最新のメッセージを表示。
