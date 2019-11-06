@@ -5,8 +5,11 @@
 $(document).on('turbolinks:load', function(){
   //全構文をくくっているfunction
   function buildPost(message){
-    //
-    var html = `<div class="message">
+
+    //ここのmessageは名前付け
+    image = message.image ? `<img class= "lower-message__image" src=${message.image} >` : "";
+    //ここのlower-message__imageは「views/messages/_messages.html.haml」の下部から引っ張ってきてる感じ。
+    var html = `<div class="message" data-message-id="${message.id}">
                   <div class="upper-message">
                     <div class="upper-message__user-name">
                       ${message.user_name}
@@ -19,9 +22,12 @@ $(document).on('turbolinks:load', function(){
                       <p class="lower-message__content">
                       ${message.content}
                       </p>
+                      ${image}
                   </div>
                 </div>`
     //message_controllerからjs用にmessageデータがきた時の画面実装
+    //class="message" の隣には「views/messages/_messages.html.haml」の上記に記入したdata-message-id="${message.id}"を追加
+    //上の下部にある${image}は「var html」の上のimageを引っ張ってきてるっぽい。
     return html;
   }
 
@@ -70,7 +76,7 @@ $(document).on('turbolinks:load', function(){
       //はじめに発火させたいクラスを設定する。
       //.prop=attrの様な役割。
       //("disabled", false)で発火後の機能停止をキャンセルする
-      $(message_content).val("")
+      $("#new_message")[0].reset();
       //message_contentクラスのデータをイベント発火後に空にする。
     })
     .fail(function(){
@@ -78,4 +84,45 @@ $(document).on('turbolinks:load', function(){
       //jbuilderを通してcontroller(messages_controller)から返ってきたデータが正しくなければエラーを返す。
     })
   })
+
+    //以下自動更新の記述
+    var reloadMessages = function () {
+      if (window.location.href.match(/\/groups\/\d+\/messages/)){
+        //今いるページのリンクが/groups/グループID/messagesのパスとマッチすれば以下を実行。
+        var last_message_id = $('.message:last').data("message-id");
+        //dataメソッドで「.message〜にある:last」最後のカスタムデータ属性を取得しlast_message_idに代入。
+        // var group_id = $(".group").data("group-id");
+      
+        $.ajax({
+          url: "api/messages",
+          //サーバを指定。今回はapi/message_controllerに処理を飛ばす。apiがどこからきてるのかわからん。rake routesにはなかった。
+          type: 'get',
+          dataType: 'json',
+          //データはjson型で返す
+          data: {id: last_message_id}
+          //飛ばすデータは先ほど取得したlast_message_id。またparamsとして渡すためlast_idとする。
+        })
+        .done(function (messages) {
+          //通信成功したら、controllerから受け取ったデータ（messages)を引数にとって以下のことを行う
+          var insertHTML = '';
+          //追加するHTMLの入れ物を作る
+          messages.forEach(function (message) {
+          //配列messagesの中身一つ一つを取り出し、HTMLに変換したものを入れ物に足し合わせる
+            insertHTML = buildPost(message); 
+            //ここのbuildPost(message)は最上記から引っ張ってきている。
+            //メッセージが入ったHTMLを取得
+            $('.contents__right-main').append(insertHTML);
+            //メッセージを追加
+          })
+          $('.contents__right-main').animate({scrollTop: $('.contents__right-main')[0].scrollHeight}, 'fast');
+          //最新のメッセージが一番下に表示されようにスクロールする。
+        })
+        .fail(function () {
+          alert('自動更新に失敗しました');
+          //ダメだったらアラートを出す
+        });
+      }
+    };
+  setInterval(reloadMessages, 5000);
+  //5000ミリ秒ごとにreloadMessagesという関数を実行し自動更新を行う。setInterval=第一引数に動かしたい関数名を、第二引数に動かす間隔をミリ秒単位で渡す
 });
