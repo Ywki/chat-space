@@ -12,10 +12,9 @@ $(document).on('turbolinks:load', function(){
     var html = `<div class="message" data-message-id="${message.id}">
                   <div class="upper-message">
                     <div class="upper-message__user-name">
-                      ${message.user_name}
-                    
+                    ${message.user_name}
                       <div class="upper-message__user-name--date">
-                        ${message.created_at.strftime}
+                      ${message.created_at.strftime}
                       </div>
                     </div>
                   </div>
