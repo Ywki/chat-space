@@ -81,6 +81,7 @@ $(document).on('turbolinks:load', function(){
     })
     .fail(function(){
       alert("エラー")
+      $(".contents__right-bottom-send").prop("disabled", false);
       //jbuilderを通してcontroller(messages_controller)から返ってきたデータが正しくなければエラーを返す。
     })
   })
