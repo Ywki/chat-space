@@ -103,6 +103,10 @@ $(document).on('turbolinks:load', function(){
           //飛ばすデータは先ほど取得したlast_message_id。またparamsとして渡すためlast_idとする。
         })
         .done(function (messages) {
+          if (messages.length == 0) {
+            return false;
+          }
+          //messageの投稿がもしなかったら「return false;(動作NG)」を返す
           //通信成功したら、controllerから受け取ったデータ（messages)を引数にとって以下のことを行う
           var insertHTML = '';
           //追加するHTMLの入れ物を作る
