@@ -14,7 +14,7 @@ $(document).on('turbolinks:load', function(){
                     <div class="upper-message__user-name">
                     ${message.user_name}
                       <div class="upper-message__user-name--date">
-                      ${message.created_at.strftime}
+                      ${message.created_at}
                       </div>
                     </div>
                   </div>
